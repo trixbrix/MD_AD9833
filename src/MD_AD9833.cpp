@@ -101,13 +101,23 @@ MD_AD9833::~MD_AD9833(void)
 void MD_AD9833::reset(bool hold)
 // Reset is done on a 1 to 0 transition
 {
-  bitSet(_regCtl, AD_RESET);
-  spiSend(_regCtl);
+  resetStart();
   if (!hold)
   {
-    bitClear(_regCtl, AD_RESET);
-    spiSend(_regCtl);
+    resetEnd();
   }
+}
+
+void MD_AD9833::resetStart()
+{
+  bitSet(_regCtl, AD_RESET);
+  spiSend(_regCtl);
+}
+
+void MD_AD9833::resetEnd()
+{
+  bitClear(_regCtl, AD_RESET);
+  spiSend(_regCtl);
 }
 
 void MD_AD9833::begin(void)
